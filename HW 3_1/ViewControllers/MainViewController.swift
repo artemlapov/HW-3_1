@@ -8,21 +8,36 @@
 import UIKit
 import SpringAnimation
 
-class MainViewController: UIViewController {
+final class MainViewController: UIViewController {
 
     @IBOutlet var animationView: SpringView!
-
+    @IBOutlet var animationDescriptionLabel: UILabel! {
+        didSet {
+            animationDescriptionLabel.text = randomAnimation.descrition
+        }
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
     }
+
+    private var randomAnimation = Animation.getRandomAnimation()
 
 
     @IBAction func runAnimationButton(_ sender: UIButton) {
-        animationView.animation = "pop"
+        animationDescriptionLabel.text = randomAnimation.descrition
+
+        animationView.animation = randomAnimation.preset
+        animationView.curve = randomAnimation.curve
+        animationView.delay = randomAnimation.delay
+        animationView.duration = randomAnimation.duration
+        animationView.force = randomAnimation.force
         animationView.animate()
+
+        randomAnimation = Animation.getRandomAnimation()
+        sender.setTitle("Run \(randomAnimation.preset)", for: .normal)
         }
+
     }
 
 
